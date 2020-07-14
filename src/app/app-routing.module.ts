@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CalcComponent } from './pages/calc/calc.component'
+import { RoutingPaths } from './core/enums/routing-paths'
 
 const routes: Routes = [
   {
-    path: 'calculator', component: CalcComponent
+    path: RoutingPaths.Calculator, component: CalcComponent
   },
   {
-    path: '**', redirectTo: '/calculator'
+    path: RoutingPaths.All, redirectTo: '/calculator'
   }
 ];
 

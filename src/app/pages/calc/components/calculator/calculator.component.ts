@@ -1,49 +1,31 @@
 import { Component, HostListener } from '@angular/core';
-import { calculatorButton } from '../models/buttonInterface';
-import { calculate } from '../services/math-operation';
+import { calculate } from '../../services/math-operation';
+import { buttonList }  from '../../helpers/button-list';
+
+
+
 
 @Component({
   selector: 'app-calculator',
   templateUrl: './calculator.component.html',
-  styleUrls: ['./calculator.component.scss']
 
 })
 
+
 export class CalculatorComponent {
   
-  buttons: calculatorButton[] = [
-    { value: '%', columnStyle: 'dark-grey' },
-    { value: '+/-', columnStyle: 'light-grey' },
-    { value: 'C', columnStyle: 'white' },
-    { value: '/', columnStyle: 'purple' },
-    { value: '7', columnStyle: 'dark-grey' },
-    { value: '8', columnStyle: 'light-grey' },
-    { value: '9', columnStyle: 'white' },
-    { value: 'x', columnStyle: 'purple' },
-    { value: '4', columnStyle: 'dark-grey' },
-    { value: '5', columnStyle: 'light-grey' },
-    { value: '6', columnStyle: 'white' },
-    { value: '-', columnStyle: 'purple' },
-    { value: '1', columnStyle: 'dark-grey' },
-    { value: '2', columnStyle: 'light-grey' },
-    { value: '3', columnStyle: 'white' },
-    { value: '+', columnStyle: 'purple' },
-    { value: '0', columnStyle: 'dark-grey' },
-    { value: '.', columnStyle: 'light-grey' },
-    { value: '=', columnStyle: 'pink' },
-  ]
+  buttonList = buttonList;
 
-
-  firstInput: string = '0';
-  mathematicOperator: string = 'null';
-  secoundInput: string = 'null';
+  currentInputValue: string = '0';
+  currentMathematicOperator: string = '';
+  lastInputValue: string = '';
   topDisplayValue: string = '';
-  resultFlag: boolean = false;
+  endResultFlag: boolean = false;
   clear: boolean = false;
 
   @HostListener("window:keydown", ['$event'])
 
-  onKeyDown(event: KeyboardEvent) {
+  calculatorKeyDown(event: KeyboardEvent) {
 
     let value: string;
 
@@ -70,7 +52,7 @@ export class CalculatorComponent {
 
   }
 
-  onClick(button: any) {
+  calculatorButtonClick(button: any) {
 
     let value: string = button.target.attributes.value.nodeValue;
     this.calculate(value);
@@ -78,11 +60,11 @@ export class CalculatorComponent {
   }
 
   clean() {
-    this.firstInput = '0';
-    this.mathematicOperator = 'null';
-    this.secoundInput = 'null';
+    this.currentInputValue = '0';
+    this.currentMathematicOperator = '';
+    this.lastInputValue = '';
     this.topDisplayValue = '';
-    this.resultFlag = false;
+    this.endResultFlag = false;
   }
 
   calculate(value: string) {
@@ -93,79 +75,79 @@ export class CalculatorComponent {
       this.clear = false;
     }
 
-    const numberSymbols: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '%'];
-    const mathematicOperatorSymbols: string[] = ['+', '-', '/', 'x']
+    const allowedNumberSymbols: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '%'];
+    const allowedMathematicOperators: string[] = ['+', '-', '/', 'x']
     const specialSymbols: string[] = ['C', '+/-', '=']
 
-    if (this.secoundInput === 'null' && value === '=') {
+    if (this.lastInputValue === '' && value === '=') {
       return;
     }
-    if (this.mathematicOperator !== 'x' && value === '%') {
+    if (this.currentMathematicOperator !== 'x' && value === '%') {
       return;
     }
 
-    if (this.secoundInput === '0' && this.mathematicOperator === '/') {
-      this.firstInput = 'Error!';
+    if (this.lastInputValue === '0' && this.currentMathematicOperator === '/') {
+      this.currentInputValue = 'Error!';
       this.clear = true;
       return;
     }
 
 
-    if (mathematicOperatorSymbols.includes(value) || value === '=') {
+    if (allowedMathematicOperators.includes(value) || value === '=') {
 
-      this.topDisplayValue = this.topDisplayValue.concat(this.firstInput + ' ');
+      this.topDisplayValue = this.topDisplayValue.concat(this.currentInputValue + ' ');
       this.topDisplayValue = this.topDisplayValue.concat(value + ' ');
 
     }
 
-    if (this.resultFlag === false) {
-      if (this.firstInput === '0' && numberSymbols.includes(value)) {
+    if (!this.endResultFlag) {
+      if (this.currentInputValue === '0' && allowedNumberSymbols.includes(value)) {
         if (value === '.') {
-          this.firstInput = this.firstInput.concat(value);
+          this.currentInputValue = this.currentInputValue.concat(value);
           return;
         }
 
-        this.firstInput = value;
+        this.currentInputValue = value;
         return;
       }
 
-      if (this.firstInput !== '0' && numberSymbols.includes(value)) {
+      if (this.currentInputValue !== '0' && allowedNumberSymbols.includes(value)) {
 
-        if (this.firstInput.includes('.') && value === '.') {
+        if (this.currentInputValue.includes('.') && value === '.') {
           return;
         }
-        this.firstInput = this.firstInput.concat(value);
+        this.currentInputValue = this.currentInputValue.concat(value);
 
         return;
       }
     }
 
 
-    if (mathematicOperatorSymbols.includes(value) || value === '=') {
+    if (allowedMathematicOperators.includes(value) || value === '=') {
 
 
 
-      if (this.secoundInput !== 'null' && value === '=') {
-        this.firstInput = calculate(this.firstInput, this.secoundInput, this.mathematicOperator);
-        this.mathematicOperator = 'null';
-        this.secoundInput === 'null'
-        this.resultFlag = true
+      if (this.lastInputValue !== '' && value === '=') {
+        this.currentInputValue = calculate(this.currentInputValue, this.lastInputValue, this.currentMathematicOperator);
+        this.currentMathematicOperator = '';
+        this.lastInputValue === ''
+        this.endResultFlag = true
         this.clear = true;
         return;
       }
 
-      if (this.mathematicOperator === 'null') {
-        this.mathematicOperator = value;
-        this.secoundInput = this.firstInput;
-        this.firstInput = '0';
-        this.resultFlag = false
+      if (this.currentMathematicOperator === '') {
+        this.currentMathematicOperator = value;
+        this.lastInputValue = this.currentInputValue;
+        this.currentInputValue = '0';
+        this.endResultFlag = false
         return;
       }
 
-      if (this.mathematicOperator !== 'null' && this.secoundInput !== 'null') {
-        this.secoundInput = calculate(this.firstInput, this.secoundInput, this.mathematicOperator);
-        this.mathematicOperator = value;
-        this.firstInput = '0';
+      if (this.currentMathematicOperator !== '' && this.lastInputValue !== '') {
+        this.lastInputValue = calculate(this.currentInputValue, this.lastInputValue, this.currentMathematicOperator);
+        this.currentMathematicOperator = value;
+        this.currentInputValue = '0';
       }
     }
 
@@ -176,14 +158,14 @@ export class CalculatorComponent {
         break;
       }
       case "+/-": {
-        if (this.firstInput === '0' || this.resultFlag === true) {
+        if (this.currentInputValue === '0' || this.endResultFlag === true) {
           break;
         }
 
-        if (!this.firstInput.includes('-')) {
-          this.firstInput = '-'.concat(this.firstInput)
+        if (!this.currentInputValue.includes('-')) {
+          this.currentInputValue = '-'.concat(this.currentInputValue)
         } else {
-          this.firstInput = this.firstInput.substr(1);
+          this.currentInputValue = this.currentInputValue.substr(1);
         }
         break;
       }

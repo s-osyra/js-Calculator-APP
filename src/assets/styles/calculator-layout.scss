@@ -1,0 +1,43 @@
+.calculator-main {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #9156e1, #ff9868);
+  
+  }
+  
+  .calculator-container {
+    display: flex;
+    position: absolute;
+    width: 90%;
+    max-width: 356px;
+  
+    flex-direction: column-reverse;
+    overflow: hidden;
+    border-radius: 5px;
+  
+  }
+ 
+  .calculator-container::before {
+    display: flex;
+    position: relative;
+    padding-top: 156%;
+    content: "";
+  
+  }
+  
+  .button-group {
+    display: flex;
+    position: absolute;
+    height: 75%;
+    width: 100%;
+    padding: 0;
+    flex-wrap: wrap;
+  
+  }
+  
+  .pink {
+    width: 200%;
+  }

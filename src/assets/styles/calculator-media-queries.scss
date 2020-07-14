@@ -1,0 +1,48 @@
+
+  @media screen and (max-width: 200px) {
+    .bottom-sub-display {
+      a {
+        font-size: 0.5rem;
+      }
+    }
+
+    .upper-display {
+      a {
+        font-size: 0.5rem;
+
+      }
+    }
+  }
+
+  @media screen and (max-width: 300px) and  (min-width: 200px){
+    .bottom-sub-display {
+      a {
+        font-size: 1.5rem;
+      }
+    }
+    .upper-display {
+      a {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  @media screen and (min-width: 300px) {
+    .bottom-sub-display {
+      a {
+        font-size: 3rem;
+      }
+    }
+    .upper-display {
+      a {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  @media screen and (max-device-width: 900px)  and (orientation:landscape) {
+    .calculator-container {
+        width: 95vh;
+        transform: rotate(90deg);
+    }
+  }

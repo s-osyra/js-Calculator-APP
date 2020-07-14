@@ -1,6 +1,6 @@
-import { calculatorButton } from '../models/buttonInterface';
+import { calculatorButton } from '../models/button-interface';
 
-const buttons: calculatorButton[] = [
+export const buttonList: calculatorButton[] = [
     { value: '%', columnStyle: 'dark-grey' },
     { value: '+/-', columnStyle: 'light-grey' },
     { value: 'C', columnStyle: 'white' },
@@ -21,7 +21,4 @@ const buttons: calculatorButton[] = [
     { value: '.', columnStyle: 'light-grey' },
     { value: '=', columnStyle: 'pink' },
   ]
-
-
-  export default buttons;
   
