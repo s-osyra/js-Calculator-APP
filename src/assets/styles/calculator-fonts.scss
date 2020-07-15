@@ -1,9 +1,11 @@
 button {
     font-size: 1.75rem;
+    
 }
 
 .top-sub-display {
     color: #d17687;
+    flex-shrink: 1;
     a {
         margin: 0.5rem;
       }
@@ -11,6 +13,7 @@ button {
 
 .bottom-sub-display {
     color: rgb(255, 255, 255);
+    flex-shrink: 1;
     a {
         margin: 0.5rem;
       }
