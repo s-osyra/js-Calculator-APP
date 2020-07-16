@@ -9,8 +9,7 @@ https://creativetacos.com/free-calculator-psd/
 Main goal was to create calculator based on Angular *ngFor loop. For calculation process APP is using single function, that accept data both by keyboard and clicking on generated buttons.
 
 CSS syling is based on flex containers. For setting proportial dimision of buttons, and main calculator layout proportion, padding-top were used. 
-
-
+	
 ## How it works?
 
 Currently application is rediracting all requests into main view. 
@@ -19,16 +18,13 @@ Simply calculator with basic operations.
 
 After `=` symbol or `Enter` calculator goes into endResult state, and next input will reset calculator into initial state.
 
-
-## Instalation
+## Installation
 
 After download or pulling app, redirect into download direction and run `npm update`.
-
 
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
 
 ## Build
 
